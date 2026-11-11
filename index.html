@@ -1,0 +1,854 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data: blob:; font-src data: blob:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<title>流动图片 · 演示</title>
+<style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#f2f2f2;color:#000000}main{width:100%;height:100vh;height:100dvh;display:grid;place-items:center}canvas{display:block;visibility:hidden;touch-action:none;user-select:none}canvas:focus-visible{outline:2px solid #000000;outline-offset:-2px}#status{position:fixed;inset:50% 12px auto;text-align:center;font:14px/1.6 system-ui;margin:0}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:pre-wrap}[hidden]{display:none!important}#lightbox{position:fixed;inset:0;z-index:40;background:rgba(10,10,12,.86);user-select:none;-webkit-user-select:none}#lightbox[hidden]{display:none}.lb-frame{position:absolute;margin:0;box-shadow:0 24px 80px rgba(0,0,0,.55);background:#111;touch-action:none}.lb-img{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:grab;touch-action:none}.lb-img.dragging{cursor:grabbing}.lb-handle{position:absolute;right:-11px;bottom:-11px;width:22px;height:22px;border-radius:50%;background:#fff;border:1px solid rgba(0,0,0,.3);cursor:nwse-resize;touch-action:none}.lb-handle::after{content:"";position:absolute;inset:6px;border-right:2px solid #999;border-bottom:2px solid #999}.lb-close{position:absolute;top:18px;right:22px;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.4);background:rgba(255,255,255,.08);color:#fff;font:300 28px/42px system-ui;cursor:pointer;padding:0}.lb-close:hover{background:rgba(255,255,255,.22)}.lb-close:focus-visible{outline:2px solid #fff;outline-offset:2px}.lb-text{position:absolute;left:50%;bottom:20px;transform:translateX(-50%);max-width:92vw;text-align:center;font:13px/1.7 "Helvetica Neue",Arial,"PingFang SC","Microsoft YaHei",sans-serif;color:rgba(255,255,255,.9);pointer-events:none;white-space:pre-wrap}</style></head>
+<body><main><canvas id="stage" tabindex="0" role="img" aria-label="作品演示。空格播放或暂停，左右方向键浏览，拖动切换图片。" aria-describedby="current-copy"></canvas></main><div id="lightbox" role="dialog" aria-modal="true" aria-label="作品大图预览" hidden><figure class="lb-frame"><img class="lb-img" alt="" draggable="false"><div class="lb-handle" title="拖动等比缩放" aria-label="拖动等比调整图片大小"></div></figure><button type="button" class="lb-close" aria-label="关闭预览">×</button><p class="lb-text"></p></div>
+<p id="status" role="status">正在打开演示…</p><p id="current-copy" class="sr-only"></p><noscript>请启用 JavaScript 以播放这份演示。</noscript>
+<script type="application/json" id="presentation-data">{"version":1,"title":"流动图片 · 演示","settings":{"mode":"flow","gridSpeed":0.2,"gridGap":0.16,"gridTilt":0,"gridScale":1,"gridReverse":false,"speed":0.15,"spacing":0.8,"amplitude":1.3,"scale":1.3,"reverse":false,"format":"square","theme":"custom","customBackground":"#f2f2f2","customInk":"#080808","customAutoInk":true,"layoutVersion":2,"showSticker":false,"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn"},"phase":47.34485637946716,"playing":false,"typography":{"works":false,"bodyFontSize":22,"bodyLineHeight":1.5,"unified":true,"shared":{"brand":"Ry4 Design","description":"2024-2026\nWorks","headline":"Creative\nProgramming\nDevelopment","signature":"Ry4 Design","footerRight":"KEEP EXPLORING ↗\n18980322596"},"fontSize":66,"lineHeight":0.9,"fontFamily":"\"Helvetica Neue\", Arial, \"PingFang SC\", \"Microsoft YaHei\", sans-serif"},"records":[{"title":"1-01.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"2.0.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-03.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-04.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-05.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-06.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-07.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-08.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-09.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-10.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-11.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-12.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-13.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-14.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-15.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-16.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-17.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-18.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-19.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-20.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-21.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-22.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-23.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-24.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-25.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-26.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-27.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-28.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-29.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-30.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-31.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-32.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-33.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-34.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-35.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-36.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-37.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-38.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-39.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-40.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-41.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-42.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-43.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-44.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-45.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-46.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-47.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-48.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-49.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-50.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-51.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-52.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-53.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-54.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-55.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-56.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-57.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-58.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-59.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-60.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-61.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-62.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-63.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-64.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-65.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-66.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-67.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-68.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-69.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-70.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-71.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-72.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-73.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-74.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-75.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-76.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-77.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-78.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-79.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-80.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}},{"title":"1-81.jpg","content":{"brand":"19 DLAB Design\nStudio Specializes","description":"In Digital Art\nDesign and","headline":"Creative\nProgramming\nDevelopment","signature":"十九创意工具 · 19dlab.cn","footerRight":"KEEP EXPLORING ↗"}}]}</script>
+<script type="application/json" id="poster-0">{"src":"images/poster-0.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-1">{"src":"images/poster-1.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-2">{"src":"images/poster-2.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-3">{"src":"images/poster-3.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-4">{"src":"images/poster-4.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-5">{"src":"images/poster-5.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-6">{"src":"images/poster-6.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-7">{"src":"images/poster-7.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-8">{"src":"images/poster-8.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-9">{"src":"images/poster-9.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-10">{"src":"images/poster-10.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-11">{"src":"images/poster-11.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-12">{"src":"images/poster-12.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-13">{"src":"images/poster-13.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-14">{"src":"images/poster-14.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-15">{"src":"images/poster-15.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-16">{"src":"images/poster-16.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-17">{"src":"images/poster-17.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-18">{"src":"images/poster-18.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-19">{"src":"images/poster-19.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-20">{"src":"images/poster-20.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-21">{"src":"images/poster-21.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-22">{"src":"images/poster-22.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-23">{"src":"images/poster-23.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-24">{"src":"images/poster-24.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-25">{"src":"images/poster-25.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-26">{"src":"images/poster-26.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-27">{"src":"images/poster-27.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-28">{"src":"images/poster-28.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-29">{"src":"images/poster-29.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-30">{"src":"images/poster-30.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-31">{"src":"images/poster-31.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-32">{"src":"images/poster-32.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-33">{"src":"images/poster-33.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-34">{"src":"images/poster-34.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-35">{"src":"images/poster-35.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-36">{"src":"images/poster-36.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-37">{"src":"images/poster-37.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-38">{"src":"images/poster-38.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-39">{"src":"images/poster-39.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-40">{"src":"images/poster-40.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-41">{"src":"images/poster-41.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-42">{"src":"images/poster-42.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-43">{"src":"images/poster-43.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-44">{"src":"images/poster-44.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-45">{"src":"images/poster-45.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-46">{"src":"images/poster-46.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-47">{"src":"images/poster-47.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-48">{"src":"images/poster-48.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-49">{"src":"images/poster-49.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-50">{"src":"images/poster-50.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-51">{"src":"images/poster-51.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-52">{"src":"images/poster-52.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-53">{"src":"images/poster-53.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-54">{"src":"images/poster-54.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-55">{"src":"images/poster-55.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-56">{"src":"images/poster-56.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-57">{"src":"images/poster-57.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-58">{"src":"images/poster-58.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-59">{"src":"images/poster-59.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-60">{"src":"images/poster-60.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-61">{"src":"images/poster-61.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-62">{"src":"images/poster-62.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-63">{"src":"images/poster-63.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-64">{"src":"images/poster-64.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-65">{"src":"images/poster-65.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-66">{"src":"images/poster-66.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-67">{"src":"images/poster-67.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-68">{"src":"images/poster-68.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-69">{"src":"images/poster-69.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-70">{"src":"images/poster-70.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-71">{"src":"images/poster-71.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-72">{"src":"images/poster-72.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-73">{"src":"images/poster-73.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-74">{"src":"images/poster-74.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-75">{"src":"images/poster-75.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-76">{"src":"images/poster-76.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-77">{"src":"images/poster-77.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-78">{"src":"images/poster-78.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-79">{"src":"images/poster-79.jpg","width":1200,"height":675}</script>
+<script type="application/json" id="poster-80">{"src":"images/poster-80.jpg","width":1200,"height":675}</script>
+<script>
+(async () => {
+'use strict';
+const __module0 = (() => {
+const THEMES = {
+  paper: { background: '#eae8e0', ink: '#080808', muted: '#6e7891', line: '#bac0ce', accent: '#2852e8' },
+  ink: { background: '#20282b', ink: '#e8e9df', muted: '#9fa9a5', line: '#4b5555', accent: '#adcaba' },
+  blue: { background: '#244de0', ink: '#f0eedf', muted: '#c3ccec', line: '#8299e9', accent: '#e2ecb4' },
+};
+
+function normalizeHex(value) {
+  if (typeof value !== 'string') return null;
+  const hex = value.trim().replace(/^#/, '');
+  if (/^[0-9a-f]{3}$/i.test(hex)) return '#' + [...hex].map(c => c + c).join('').toLowerCase();
+  return /^[0-9a-f]{6}$/i.test(hex) ? '#' + hex.toLowerCase() : null;
+}
+const rgb = hex => hex.slice(1).match(/../g).map(value => parseInt(value, 16));
+function luminance(hex) {
+  const [r, g, b] = rgb(hex).map(value => {
+    const s = value / 255;
+    return s <= .04045 ? s / 12.92 : ((s + .055) / 1.055) ** 2.4;
+  });
+  return .2126 * r + .7152 * g + .0722 * b;
+}
+function contrast(a, b) {
+  const x = luminance(a), y = luminance(b);
+  return (Math.max(x, y) + .05) / (Math.min(x, y) + .05);
+}
+function mix(background, foreground, amount) {
+  const a = rgb(background), b = rgb(foreground);
+  return '#' + a.map((value, index) => Math.round(value + (b[index] - value) * amount).toString(16).padStart(2, '0')).join('');
+}
+function resolvePalette(state) {
+  if (state.theme !== 'custom') return THEMES[state.theme] || THEMES.paper;
+  const background = normalizeHex(state.customBackground) || THEMES.paper.background;
+  const auto = contrast(background, '#000000') >= contrast(background, '#ffffff') ? '#000000' : '#ffffff';
+  const ink = state.customAutoInk !== false ? auto : normalizeHex(state.customInk) || auto;
+  const muted = mix(background, ink, .72);
+  return { background, ink, muted: contrast(background, muted) >= 4.5 ? muted : ink, line: mix(background, ink, .22), accent: ink };
+}
+
+return { THEMES, normalizeHex, contrast, resolvePalette };
+})();
+const __module1 = (() => {
+const wrap = (value, count) => ((value % count) + count) % count;
+
+function gridImageAspect(posters) {
+  const ratios = posters.map(p => p.width / p.height).filter(Number.isFinite).sort((a, b) => a - b);
+  return Math.max(.45, Math.min(2.2, ratios[Math.floor(ratios.length / 2)] || .75));
+}
+
+function gridGeometry(width, height, state, aspect = .75) {
+  const rotation = state.gridTilt * Math.PI / 180;
+  const base = Math.min(width * .42, height * .55 * aspect) * state.gridScale;
+  const cardHeight = base / aspect, gutter = base * state.gridGap;
+  const clip = { x: 0, y: height * .22, width, height: height * .60 };
+  return { base, cardHeight, stepX: base + gutter, gap: cardHeight + gutter, rotation, clip, centerX: width / 2, centerY: clip.y + clip.height / 2 };
+}
+
+/** Alternating columns move in opposite directions on one tilted plane.
+ * Only visible rows and a one-card margin are generated, even for 100 images.
+ * An integer phase centers that image in the first of the two central columns.
+ */
+function gridLayout(width, height, phase, count, state, aspect = .75) {
+  if (!count) return [];
+  const { base, cardHeight, stepX, gap, rotation, clip, centerX, centerY } = gridGeometry(width, height, state, aspect);
+  const cos = Math.cos(rotation), sin = Math.sin(rotation);
+  // Inverse-rotated viewport bounds avoid holes at the cropped corners.
+  const halfX = (Math.abs(cos) * clip.width + Math.abs(sin) * clip.height) / 2;
+  const halfY = (Math.abs(sin) * clip.width + Math.abs(cos) * clip.height) / 2;
+  const columns = Math.ceil(halfX / stepX) + 1, items = [];
+  const halfCardX = (Math.abs(cos) * base + Math.abs(sin) * cardHeight) / 2;
+  const halfCardY = (Math.abs(sin) * base + Math.abs(cos) * cardHeight) / 2;
+  for (let column = -columns; column <= columns + 1; column++) {
+    const odd = wrap(column, 2), direction = odd ? -1 : 1;
+    const offset = wrap(direction * phase + (odd ? .5 : 0), count);
+    const localX = (column - .5) * stepX;
+    const first = Math.floor(-halfY / gap - offset) - 1;
+    const last = Math.ceil(halfY / gap - offset) + 1;
+    for (let row = first; row <= last; row++) {
+      const localY = (row + offset) * gap;
+      const x = centerX + localX * cos - localY * sin;
+      const y = centerY + localX * sin + localY * cos;
+      if (x + halfCardX < 0 || x - halfCardX > width || y + halfCardY < clip.y || y - halfCardY > clip.y + clip.height) continue;
+      const index = wrap(-direction * row + (odd ? Math.ceil(count / 2) : 0), count);
+      // The active item follows the primary column; the other column is equal-sized.
+      const depth = (column === 0 ? 1000 : 0) - Math.abs(localY) / gap - Math.abs(localX) / stepX * .01;
+      items.push({ index, slot: row, column, x, y, localX, localY, width: base, height: cardHeight, rotation, direction, depth });
+    }
+  }
+  return items.sort((a, b) => a.depth - b.depth);
+}
+
+return { gridImageAspect, gridGeometry, gridLayout };
+})();
+const __module2 = (() => {
+const { normalizeHex } = __module0;
+const { gridGeometry, gridLayout } = __module1;
+const FORMATS = { portrait: [1200, 1500], portrait34: [1200, 1600], portrait916: [1080, 1920], square: [1200, 1200], landscape: [1500, 1000] };
+const DEFAULTS = Object.freeze({ mode: 'flow', gridSpeed: .7, gridGap: .045, gridTilt: -18, gridScale: 1, gridReverse: false, speed: .7, spacing: .28, amplitude: .65, scale: 1, reverse: false, format: 'portrait', theme: 'paper', customBackground: '#eae8e0', customInk: '#080808', customAutoInk: true, layoutVersion: 2, showSticker: false, brand: '19 DLAB Design\nStudio Specializes', description: 'In Digital Art\nDesign and', headline: 'Creative\nProgramming\nDevelopment', signature: '十九创意工具 · 19dlab.cn' });
+const mod = (value, divisor) => ((value % divisor) + divisor) % divisor;
+const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+
+const motionRate = state => state.mode === 'grid' ? state.gridSpeed * (state.gridReverse ? -1 : 1) : state.speed * (state.reverse ? -1 : 1);
+
+function geometry(width, height, settings, aspect = .75) {
+  if (settings.mode === 'grid') return gridGeometry(width, height, settings, aspect);
+  const wide = width / height > 1.2;
+  const desired = width * (wide ? .30 : .42) * settings.scale;
+  // Reserve space for the fixed brand and footer at every aspect / amplitude.
+  const base = Math.min(desired, height * (wide ? .48 : .60) / (1.3 + .56 * settings.amplitude));
+  return { base, gap: base * settings.spacing };
+}
+
+/** A repeating strip of billboards. Only position, uniform scale and depth change.
+ * Copies wrap outside the canvas. The same photo has the same path every cycle.
+ */
+function layout(width, height, phase, count, settings, aspect = .75) {
+  if (settings.mode === 'grid') return gridLayout(width, height, phase, count, settings, aspect);
+  if (!count) return [];
+  const { base, gap } = geometry(width, height, settings);
+  const slots = Math.max(count, Math.ceil((width + 2 * base) / gap / count) * count);
+  const span = slots * gap;
+  const items = [];
+  for (let slot = 0; slot < slots; slot++) {
+    const index = slot % count;
+    const d = mod(slot * gap - phase * gap + span / 2, span) - span / 2;
+    const focus = Math.exp(-Math.pow(d / (width * .37), 2));
+    const scale = .40 + .60 * focus;
+    const w = base * scale;
+    const h = w * 1.30;
+    const x = width / 2 + d;
+    const wave = Math.sin(d / (base * .68) + index * 1.15);
+    const y = height * .515 + wave * base * .28 * settings.amplitude;
+    if (x + w / 2 < -2 || x - w / 2 > width + 2) continue;
+    items.push({ index, slot, x, y, width: w, height: h, depth: focus + wave * .0001 });
+  }
+  return items.sort((a, b) => a.depth - b.depth);
+}
+
+function cleanSettings(candidate = {}) {
+  if (!candidate || typeof candidate !== 'object') candidate = {};
+  const state = { ...DEFAULTS };
+  for (const [key, min, max] of [['speed', .1, 2], ['spacing', .18, .8], ['amplitude', 0, 1.4], ['scale', .65, 1.3], ['gridSpeed', .1, 2], ['gridGap', .015, .16], ['gridTilt', -35, 35], ['gridScale', .65, 1.3]]) {
+    if (typeof candidate[key] === 'number' && Number.isFinite(candidate[key])) state[key] = clamp(candidate[key], min, max);
+  }
+  if (Object.hasOwn(FORMATS, candidate.format)) state.format = candidate.format;
+  if (['paper', 'ink', 'blue', 'custom'].includes(candidate.theme)) state.theme = candidate.theme;
+  state.customBackground = normalizeHex(candidate.customBackground) || DEFAULTS.customBackground;
+  state.customInk = normalizeHex(candidate.customInk) || DEFAULTS.customInk;
+  if (typeof candidate.customAutoInk === 'boolean') state.customAutoInk = candidate.customAutoInk;
+  state.mode = candidate.mode === 'grid' ? 'grid' : 'flow';
+  state.gridReverse = candidate.gridReverse === true;
+  state.reverse = candidate.reverse === true;
+  state.showSticker = candidate.showSticker === true;
+  for (const [key, max] of [['brand', 120], ['description', 120], ['headline', 120], ['signature', 48]]) {
+    const legacyDefault = candidate.layoutVersion !== 2 &&
+      ((key === 'brand' && candidate[key] === '19DESIGN') || (key === 'headline' && candidate[key] === '让灵感流动'));
+    if (!legacyDefault && typeof candidate[key] === 'string') state[key] = candidate[key].slice(0, max);
+  }
+  return state;
+}
+
+return { FORMATS, DEFAULTS, mod, clamp, motionRate, geometry, layout, cleanSettings };
+})();
+const __module3 = (() => {
+const SYSTEM_FONT = '"Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif';
+const CONTENT_LIMITS = { brand: 220, description: 220, headline: 1200, signature: 160, footerRight: 160 };
+const ORIGINAL_TEXT = Object.freeze({
+  brand: '19 DLAB Design\nStudio Specializes',
+  description: 'In Digital Art\nDesign and',
+  headline: 'Creative\nProgramming\nDevelopment',
+  signature: '十九创意工具 · 19dlab.cn',
+  footerRight: 'KEEP EXPLORING ↗',
+});
+// The layout has free text areas, not project/author/date fields.
+// Previously saved free copy is the starting point for newly added images.
+function defaultContent(previous = {}) {
+  return Object.fromEntries(Object.entries(CONTENT_LIMITS).map(([key, limit]) => [key,
+    typeof previous[key] === 'string' ? previous[key].slice(0, limit) : ORIGINAL_TEXT[key]]));
+}
+function cleanContent(candidate, fallback = defaultContent()) {
+  // Flatten the short-lived structured version without losing any entered words.
+  // Labels are never added by the renderer; the user can write them as ordinary text.
+  if (candidate && !Object.keys(CONTENT_LIMITS).some(key => typeof candidate[key] === 'string') &&
+      ['project', 'author', 'date', 'intro'].some(key => typeof candidate[key] === 'string')) {
+    candidate = {
+      brand: candidate.project,
+      description: [candidate.author, candidate.date].filter(value => typeof value === 'string' && value).join('\n'),
+      headline: candidate.intro,
+    };
+  }
+  return Object.fromEntries(Object.entries(CONTENT_LIMITS).map(([key, limit]) => [key,
+    typeof candidate?.[key] === 'string' ? candidate[key].replace(/\r/g, '').slice(0, limit) : fallback[key]]));
+}
+function currentContent(records, index, unified, shared) {
+  return unified ? shared : records[index]?.content || defaultContent();
+}
+// Explicit newlines are retained; CJK and long unbroken words also wrap safely.
+function wrapText(ctx, text, maxWidth) {
+  return String(text ?? '').split('\n').flatMap(paragraph => {
+    const lines = []; let line = '';
+    for (const character of Array.from(paragraph)) {
+      if (line && ctx.measureText(line + character).width > maxWidth) { lines.push(line); line = ''; }
+      line += character;
+    }
+    lines.push(line); return lines;
+  });
+}
+
+return { SYSTEM_FONT, CONTENT_LIMITS, defaultContent, cleanContent, currentContent, wrapText };
+})();
+const __module4 = (() => {
+const { defaultContent, cleanContent } = __module3;
+// Editable example copy for the six supplied covers; dates are sample project dates.
+const WORKS = Object.freeze({
+  'cover-01': {
+    title: '生成字形工具', date: '20261001', category: 'TYPE / GRID FIELD',
+    intro: 'Grid Field 是一款面向图片重构、几何图案与动态视觉设计的创作工具。它支持上传图片，根据图像明暗生成可编辑的网格图案，并提供多种基础图案与风格预设。用户可以逐格绘制、填充、擦除，也可以框选多个格子合并为一个完整图案，上传 SVG、PNG 作为自定义图案。通过调整横纵网格数量、整体密度、区域内外与轮廓密度、图案间隙、颜色和渐变参数，自由组织画面；配合交互变形、自动演变与固定画布功能，创作静态构图或流动的网格动画。\n导出方式：支持高清 PNG、透明 PNG、JPG 与 SVG，以及 MP4、WebM、GIF 和透明 PNG 序列。SVG 保留矢量图案，并提供 Illustrator 兼容渐变选项。',
+  },
+  'cover-02': {
+    title: '植物生成工具', date: '20260930', category: 'BOTANIC / PIXEL BLOOM',
+    intro: 'Pixel Bloom 从一朵花的轮廓出发，把花瓣、茎秆与叶片转译为像素构成。红色花冠与荧光绿叶片保留鲜明的数字边缘，黑色阴影让平面的格点产生错位与厚度。植物不再只是被描绘的对象，也成为一种可以反复拆解、组合的视觉语言。\n创作观察：同一株植物在像素、黑墨与单色三个视角之间切换。局部截图与完整形态并置，记录从几何结构到自然意象的转变。\n应用方向：生成艺术海报、实验出版封面与植物主题的动态视觉。',
+  },
+  'cover-03': {
+    title: '植物 · 形态与色彩', date: '20260929', category: 'BOTANIC / COLOR STUDY',
+    intro: 'Botanic / Color Study 是一组关于植物结构与观看方式的视觉实验。纤细的茎秆支撑展开的花冠，花瓣表面的三角网格保留了数字建模的痕迹。半透明的紫灰、低饱和的绿色与暖橙色窗口，使同一植物呈现出不同的空间感和色彩关系。\n创作观察：以完整植株为主线，把花冠、叶片和局部色彩拆成独立视窗；通过放大、叠置和留白，让生成结构与自然姿态同时可见。\n应用方向：植物研究图册、艺术书籍版面与展览视觉记录。',
+  },
+  'cover-04': {
+    title: '3D 样机工具\n动态海报', date: '20260928', category: 'MOCKUP / POSTER IN MOTION',
+    intro: 'Poster in Motion 将像素花卉放入一张以文字为骨架的海报。巨大的红色花冠穿过标题与正文，荧光绿叶片沿着黑色茎秆向下延伸，让图像的生长方向与阅读顺序发生交叉。\n创作观察：大字号、分行文字和不对称留白共同组织画面。平面海报作为样机展示的图像素材，在循环位移与前后层叠中形成新的观看节奏，保留封面本身的完整构图。\n应用方向：作品发布、设计提案、动态封面与社交媒体展示。',
+  },
+  'cover-05': {
+    title: '3D 字形海报\nLoop Type', date: '20260927', category: 'TYPE / VOLUMETRIC LOOPS',
+    intro: 'Loop Type 以重复的椭圆轨迹构建立体字形。亮粉色的体块与荧光绿轮廓相互穿插，密集线条既勾勒字母的外形，也留下不断累积的运动痕迹。字形被放大到画面边缘，黑色文字穿行其间，形成体积、轮廓与信息的多层关系。\n创作观察：把一条简单曲线视作构成单元，通过重复、偏移和方向变化组织字母结构；让可读性与抽象形态保持张力。\n应用方向：实验字体海报、视觉识别延展与立体字形作品展示。',
+  },
+  'cover-06': {
+    title: 'Digital Cyanotype\nHalftone', date: '20260926', category: 'IMAGE / DIGITAL CYANOTYPE',
+    intro: 'Digital Cyanotype Halftone 把奔跑中的白马转化为一张数字蓝晒图像。钴蓝色底面与细密半调网点共同塑造明暗，马鬃、四肢和躯干在颗粒与留白之间显现，保留摄影的瞬间感，也带有印刷图像的触感。\n创作观察：以单色关系代替完整色谱，让网点密度承担层次；借助大标题与细线边框，建立图像、纸面和阅读区域之间的秩序。\n应用方向：蓝晒风格封面、半调图像实验、艺术印刷与动态作品集。',
+  },
+});
+
+function workContent(source = {}) {
+  const work = WORKS[source.id];
+  return {
+    brand: work?.title || source.title?.replace(/\.[^.]+$/, '') || '作品名称',
+    description: work ? `作者：by 19 DLAB\n时间：${work.date}` : '作者：\n时间：',
+    headline: work?.intro || '写下这张图片的创作想法、制作过程或使用场景。',
+    signature: work?.category || 'PROJECT NOTES',
+    footerRight: work ? `19 DLAB · ${source.id.slice(-2)} / 06` : 'KEEP EXPLORING ↗',
+  };
+}
+
+const profile = () => ({ unified: false, shared: null, entries: {} });
+const bounded = (value, fallback, min, max) => Number.isFinite(value) ? Math.max(min, Math.min(max, value)) : fallback;
+function restoreContentSettings(saved = {}) {
+  if (!saved || typeof saved !== 'object') saved = {};
+  const settings = {
+    version: 3, preset: 'original',
+    fontSize: bounded(saved.fontSize, 48, 20, 80), lineHeight: bounded(saved.lineHeight, 1, .9, 2),
+    bodyFontSize: bounded(saved.bodyFontSize, 22, 12, 36), bodyLineHeight: bounded(saved.bodyLineHeight, 1.5, 1.4, 2),
+    profiles: { original: profile(), works: profile() },
+  };
+  if (saved.version === 3) {
+    for (const key of ['original', 'works', 'saved']) {
+      const value = saved.profiles?.[key];
+      if (!value || typeof value !== 'object') continue;
+      settings.profiles[key] = { unified: value.unified === true, shared: value.shared ? cleanContent(value.shared) : null,
+        entries: value.entries && typeof value.entries === 'object' ? value.entries : {} };
+    }
+    if (Object.hasOwn(settings.profiles, saved.preset)) settings.preset = saved.preset;
+  } else if (saved.shared || (saved.entries && Object.keys(saved.entries).length)) {
+    // A reversible migration: original English becomes the default, previous edits
+    // remain available in the content selector instead of being overwritten.
+    settings.profiles.saved = { unified: saved.unified === true, shared: saved.shared ? cleanContent(saved.shared) : null, entries: saved.entries || {} };
+  }
+  return settings;
+}
+
+function contentCopies(source, settings) {
+  return Object.fromEntries(Object.entries(settings.profiles).map(([key, data]) => [key,
+    cleanContent(data.entries[source.id], key === 'works' ? workContent(source) : defaultContent())]));
+}
+
+// Work notes reserve a lower text panel; the original composition stays identical.
+function contentScene(width, height, works = false) {
+  return { width, height: height * (works ? .75 : 1), offsetY: works ? height * .05 : 0 };
+}
+
+return { WORKS, workContent, restoreContentSettings, contentCopies, contentScene };
+})();
+const __module5 = (() => {
+/** Decode uploads as images, never insert user SVG markup into the document. */
+async function loadSticker(file) {
+  const svg = file.type === 'image/svg+xml' || /\.svg$/i.test(file.name);
+  const png = file.type === 'image/png' || /\.png$/i.test(file.name);
+  if (!svg && !png) throw new Error('请选择 SVG 或 PNG 图片');
+  if (file.size > 25 * 1024 * 1024) throw new Error('贴纸请控制在 25 MB 以内');
+  let blob = file;
+  if (svg) {
+    const text = await file.text();
+    const doc = new DOMParser().parseFromString(text, 'image/svg+xml');
+    const root = doc.documentElement;
+    if (doc.querySelector('parsererror') || root.localName !== 'svg' || root.namespaceURI !== 'http://www.w3.org/2000/svg') throw new Error('SVG 文件无法读取');
+    // Standalone stickers must not depend on remote resources or executable document content.
+    if (doc.querySelector('script, foreignObject')) throw new Error('请使用纯图形 SVG，或导出为透明 PNG');
+    for (const node of doc.querySelectorAll('*')) {
+      for (const attr of [...node.attributes]) {
+        if (/^on/i.test(attr.name)) node.removeAttribute(attr.name);
+        if (attr.localName === 'href' && !/^(#|data:image\/(png|jpeg|webp);base64,)/i.test(attr.value.trim()) && attr.value.trim()) throw new Error('SVG 含外部资源，请先嵌入图片或转为透明 PNG');
+      }
+    }
+    const serialized = new XMLSerializer().serializeToString(root);
+    if (/@import/i.test(serialized) || [...serialized.matchAll(/url\(\s*['"]?([^)'"\s]+)/gi)].some(match => !match[1].startsWith('#') && !/^data:image\/(png|jpeg|webp);base64,/i.test(match[1]))) throw new Error('SVG 含外部资源，请先嵌入图片或转为透明 PNG');
+    blob = new Blob([serialized], { type: 'image/svg+xml' });
+  }
+  const url = URL.createObjectURL(blob), image = new Image();
+  image.decoding = 'async'; image.src = url;
+  try {
+    await image.decode();
+    if (!image.naturalWidth || !image.naturalHeight || image.naturalWidth * image.naturalHeight > 60_000_000) throw new Error('贴纸尺寸过大或无效');
+    return { image, url, name: file.name };
+  } catch (error) {
+    image.src = ''; URL.revokeObjectURL(url);
+    throw new Error(error.message === '贴纸尺寸过大或无效' ? error.message : '贴纸无法读取，请重新选择 SVG 或 PNG');
+  }
+}
+
+function stickerBounds(width, height, imageWidth, imageHeight) {
+  const unit = Math.min(width, height * .8);
+  const fit = Math.min(unit * .15 / imageWidth, unit * .15 / imageHeight);
+  const w = imageWidth * fit, h = imageHeight * fit;
+  return { x: width - width * .027 - w, y: unit * .018, width: w, height: h };
+}
+
+return { loadSticker, stickerBounds };
+})();
+const __module6 = (() => {
+// Exact outlines from the user-supplied public/19dlab-logo.svg.
+const outlines = [
+  "M6.54 6.82 L6.54 6.83 L3.26 6.83 L3.26 8.71 L6.54 8.71 L6.54 44.1 L8.42 44.1 L8.42 6.82 L6.54 6.82 Z",
+  "M68.52 43.96 L58.08 43.96 L58.08 6.93 L59.96 6.93 L59.96 42.08 L68.52 42.08 L68.52 43.96 Z",
+  "M53.37,32.31V6.93s-1.88,0-1.88,0v16.45s0,2.72,0,2.72c0,0-.3-1.56-1.24-2.5-.04-.04-.08-.09-.11-.13-.61-.66-1.3-1.24-2.09-1.72-3.97-2.44-8.76-.89-11.31,2.8-1.6,2.26-2.36,5.01-2.37,7.75.02,2.74.77,5.49,2.37,7.75,2.55,3.7,7.34,5.24,11.31,2.8,1.44-.88,2.58-2.1,3.43-3.51v4.75s1.88,0,1.88,0v-11.79s0,0,0,0c0,0,0,0,0,0ZM51.49,32.31c0,3.39-1.44,7.08-4.45,8.84-3.09,1.82-6.6.51-8.52-2.34-1.31-1.87-1.93-4.21-1.93-6.5,0-2.29.61-4.62,1.93-6.5,1.92-2.86,5.43-4.16,8.52-2.35,3,1.76,4.44,5.45,4.45,8.84h0Z",
+  "M85.48,32.3V6.75s-15.86,0-15.86,0v1.88s13.98,0,13.98,0v16.66s0,0,0,0v.82s-.23-1.19-.91-2.12c-.71-.86-1.55-1.62-2.53-2.22-3.97-2.42-8.72-.87-11.26,2.81-1.59,2.25-2.34,4.99-2.36,7.72.01,2.73.76,5.47,2.36,7.72,2.54,3.69,7.29,5.23,11.26,2.81,1.44-.88,2.59-2.1,3.44-3.51v4.77s1.88,0,1.88,0v-11.78s0,0,0,0c0,0,0,0,0,0ZM83.6,32.32c0,3.39-1.44,7.08-4.44,8.85-3.1,1.84-6.64.53-8.57-2.33-1.32-1.88-1.94-4.23-1.94-6.53,0-2.3.62-4.65,1.94-6.53,1.94-2.87,5.47-4.17,8.57-2.33,3,1.78,4.43,5.46,4.44,8.85h0Z",
+  "M103.51,21.77c-2.97-1.73-6.33-1.32-8.88.53-2.24,1.84-2.74,3.57-2.74,3.57v-.5s0,0,0,0V6.93s-1.88,0-1.88,0v37.17s1.88,0,1.88,0v-4.85s0,0,0,0v-.46s.44,1.52,2.32,3.21c2.6,2.12,6.16,2.68,9.3.85,3.67-2.12,5.54-6.43,5.54-10.54,0-4.11-1.87-8.42-5.54-10.54ZM102.51,41.16c-3.08,1.93-6.7.61-8.67-2.26-1.16-1.63-1.8-3.61-1.96-5.61v-1.97c.16-2,.8-3.98,1.96-5.61,1.97-2.87,5.59-4.19,8.67-2.26,2.91,1.85,4.22,5.5,4.22,8.85,0,3.35-1.3,7-4.22,8.85Z",
+  "M28.65,6.82v4.41s0,.85,0,.85c0,0-.2-1.03-.77-1.91-.75-.98-1.66-1.84-2.75-2.51-3.98-2.44-8.77-.9-11.32,2.8-1.6,2.26-2.36,5.01-2.38,7.76.02,2.74.77,5.5,2.38,7.76,2.55,3.7,7.34,5.24,11.32,2.8,1.49-.92,2.66-2.19,3.52-3.66v19s1.88,0,1.88,0V6.82s-1.88,0-1.88,0ZM24.12,27.05c-3.09,1.82-6.59.51-8.52-2.35-1.31-1.87-1.93-4.21-1.92-6.49,0-2.29.61-4.62,1.92-6.49,1.92-2.86,5.42-4.16,8.52-2.35,3,1.76,4.44,5.45,4.45,8.84,0,3.39-1.44,7.08-4.45,8.84Z",
+  "M112.31,50.58H0S0,0,0,0h112.31s0,50.58,0,50.58ZM1.77,48.81h108.77s0-47.04,0-47.04H1.77s0,47.04,0,47.04Z"
+];
+let paths;
+
+function drawBrandMark(ctx, x, y, width, color) {
+  paths ??= outlines.map(outline => new Path2D(outline));
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.scale(width / 112.31, width / 112.31);
+  ctx.fillStyle = color;
+  for (const path of paths) ctx.fill(path);
+  ctx.restore();
+}
+
+return { drawBrandMark };
+})();
+const __module7 = (() => {
+const { layout } = __module2;
+const { gridGeometry, gridImageAspect } = __module1;
+const { drawBrandMark } = __module6;
+const { stickerBounds } = __module5;
+const { resolvePalette } = __module0;
+const { SYSTEM_FONT, currentContent, defaultContent, wrapText } = __module3;
+const { contentScene } = __module4;
+const { THEMES } = __module0;
+const SANS = '"Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif';
+
+
+function type(ctx, text, x, y, size, color, weight = 500, maxWidth, align = 'left') {
+  ctx.font = `${weight} ${size}px ${SANS}`;
+  if (maxWidth && ctx.measureText(text).width > maxWidth) {
+    size *= maxWidth / ctx.measureText(text).width;
+    ctx.font = `${weight} ${size}px ${SANS}`;
+  }
+  ctx.textAlign = align;
+  ctx.textBaseline = 'alphabetic';
+  ctx.fillStyle = color;
+  ctx.fillText(text, x, y);
+}
+
+function rect(ctx, color, x, y, w, h) { ctx.fillStyle = color; ctx.fillRect(x, y, w, h); }
+function photo(ctx, image, x, y, w, h, anchor = .5) {
+  const r = Math.max(w / image.naturalWidth, h / image.naturalHeight);
+  const sw = w / r, sh = h / r;
+  ctx.drawImage(image, (image.naturalWidth - sw) * anchor, (image.naturalHeight - sh) * .5, sw, sh, x, y, w, h);
+}
+function rule(ctx, color, x, y, w) { rect(ctx, color, x, y, w, 1); }
+
+/** Keep supplied covers intact; legacy artwork can use the editorial layouts below. */
+function makePoster(image, index, brand = '19DESIGN', raw = false) {
+  const canvas = document.createElement('canvas');
+  canvas.width = 600; canvas.height = 780;
+  const ctx = canvas.getContext('2d');
+  const blue = '#274fdb', white = '#edece5', dark = '#253a40';
+  if (raw) {
+    const scale = Math.min(1200 / image.naturalWidth, 1560 / image.naturalHeight, Math.sqrt(900_000 / (image.naturalWidth * image.naturalHeight)), 1);
+    canvas.width = Math.max(1, Math.round(image.naturalWidth * scale));
+    canvas.height = Math.max(1, Math.round(image.naturalHeight * scale));
+    ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+    return canvas;
+  }
+  const no = String(index + 1).padStart(2, '0');
+  switch (index % 8) {
+    case 0:
+      rect(ctx, '#c3d3df', 0, 0, 600, 780);
+      photo(ctx, image, 0, 160, 600, 510);
+      type(ctx, '流动的', 26, 73, 55, dark, 600);
+      type(ctx, '想象', 26, 142, 55, dark, 600);
+      type(ctx, 'IN MOTION', 568, 53, 17, dark, 500, 200, 'right');
+      type(ctx, no, 568, 142, 69, blue, 400, 90, 'right');
+      type(ctx, brand, 27, 741, 25, dark, 600, 280);
+      type(ctx, 'A VISUAL STUDY', 573, 741, 14, dark, 400, 220, 'right');
+      break;
+    case 1:
+      rect(ctx, blue, 0, 0, 600, 780);
+      photo(ctx, image, 33, 216, 534, 444);
+      type(ctx, 'LOOK', 27, 105, 105, white, 700, 530);
+      type(ctx, 'AGAIN.', 27, 199, 105, white, 700, 530);
+      type(ctx, '重新看见', 33, 707, 26, white, 500);
+      rule(ctx, '#abb9ed', 33, 727, 534);
+      type(ctx, brand, 33, 757, 16, white, 500, 340);
+      type(ctx, no, 567, 757, 18, white, 500, 60, 'right');
+      break;
+    case 2:
+      rect(ctx, '#e7e3d6', 0, 0, 600, 780);
+      photo(ctx, image, 22, 22, 556, 479);
+      type(ctx, '形色', 24, 615, 109, '#ae492d', 600);
+      type(ctx, '之间', 570, 733, 109, '#ae492d', 600, 270, 'right');
+      type(ctx, brand, 26, 750, 18, dark, 500, 250);
+      type(ctx, 'FORM & COLOUR', 30, 647, 15, dark, 400);
+      break;
+    case 3:
+      rect(ctx, '#c85c43', 0, 0, 600, 780);
+      type(ctx, '观察', 32, 141, 120, '#e9e1ce', 600);
+      photo(ctx, image, 166, 191, 401, 488);
+      ctx.save(); ctx.translate(67, 665); ctx.rotate(-Math.PI / 2);
+      type(ctx, 'THE ART OF NOTICING', 0, 0, 21, '#f2e9d8', 500, 458); ctx.restore();
+      type(ctx, brand, 33, 741, 22, '#f2e9d8', 500, 350);
+      type(ctx, no, 566, 745, 37, '#f2e9d8', 400, 70, 'right');
+      break;
+    case 4:
+      photo(ctx, image, 0, 0, 600, 780);
+      const fade = ctx.createLinearGradient(0, 0, 0, 780);
+      fade.addColorStop(0, '#142c36aa'); fade.addColorStop(.55, '#142c3600'); fade.addColorStop(1, '#142c36ba');
+      rect(ctx, fade, 0, 0, 600, 780);
+      type(ctx, 'Make', 30, 119, 104, '#eeecda', 500);
+      type(ctx, 'room.', 30, 214, 104, '#eeecda', 500);
+      type(ctx, '为想象，留一点空间。', 32, 689, 25, '#eeecda', 400, 530);
+      rule(ctx, '#eeeada99', 32, 714, 536);
+      type(ctx, brand, 32, 749, 18, '#eeecda', 500, 340);
+      type(ctx, no, 568, 749, 18, '#eeecda', 400, 60, 'right');
+      break;
+    case 5:
+      rect(ctx, '#e3dec9', 0, 0, 600, 780);
+      photo(ctx, image, 23, 90, 554, 500);
+      type(ctx, brand, 24, 52, 24, '#3f5142', 600, 380);
+      type(ctx, no, 576, 52, 24, '#3f5142', 400, 60, 'right');
+      type(ctx, '慢一点', 24, 685, 82, '#3f5142', 600, 550);
+      type(ctx, 'SEE A LITTLE MORE.', 28, 744, 21, '#3f5142', 500);
+      break;
+    case 6:
+      rect(ctx, '#253e63', 0, 0, 600, 780);
+      type(ctx, '另一种', 27, 97, 77, '#cddade', 500);
+      type(ctx, '视角', 27, 189, 77, '#cddade', 500);
+      photo(ctx, image, 28, 225, 544, 431);
+      type(ctx, 'A DIFFERENT PERSPECTIVE', 29, 695, 17, '#cddade', 500, 535);
+      rule(ctx, '#8c9faf', 28, 718, 544);
+      type(ctx, brand, 28, 754, 20, '#cddade', 500, 360);
+      type(ctx, no, 572, 754, 20, '#cddade', 400, 60, 'right');
+      break;
+    default:
+      rect(ctx, '#c9d2bf', 0, 0, 600, 780);
+      photo(ctx, image, 0, 0, 600, 530);
+      type(ctx, '自然有序', 23, 631, 87, '#293e33', 600, 553);
+      type(ctx, 'FIND YOUR OWN RHYTHM', 28, 676, 20, '#293e33', 400);
+      rule(ctx, '#8b9d87', 28, 710, 544);
+      type(ctx, brand, 28, 751, 20, '#293e33', 500, 350);
+      type(ctx, no, 573, 751, 20, '#293e33', 400, 60, 'right');
+  }
+  return canvas;
+}
+
+function textBlock(ctx, text, x, top, size, maxWidth, maxHeight, color, family, lineHeight = 1, align = 'left') {
+  let fitted = size, lines;
+  for (let attempt = 0; attempt < 40; attempt++) {
+    ctx.font = `400 ${fitted}px ${family}`;
+    lines = wrapText(ctx, text, maxWidth);
+    if (fitted * (1 + (lines.length - 1) * lineHeight) <= maxHeight) break;
+    fitted *= .94;
+  }
+  ctx.textAlign = align; ctx.textBaseline = 'alphabetic'; ctx.fillStyle = color;
+  lines.forEach((line, index) => ctx.fillText(line, x, top + fitted * (.84 + index * lineHeight)));
+  return fitted * (1 + (lines.length - 1) * lineHeight);
+}
+
+function render(ctx, width, height, phase, posters, state, sticker = null, content = {}) {
+  const palette = resolvePalette(state);
+  const isGrid = state.mode === 'grid', aspect = isGrid ? gridImageAspect(posters) : .75;
+  const scene = contentScene(width, height, content.works);
+  const items = layout(width, scene.height, phase, posters.length, state, aspect);
+  if (scene.offsetY) for (const item of items) item.y += scene.offsetY;
+  const active = items.at(-1)?.index ?? -1;
+  const copy = currentContent(content.records || [], active, content.unified, content.shared || defaultContent(state));
+  const family = content.fontFamily || SYSTEM_FONT, leading = content.lineHeight || 1;
+  ctx.save();
+  ctx.clearRect(0, 0, width, height);
+  rect(ctx, palette.background, 0, 0, width, height);
+  const unit = Math.min(width, height * .8);
+  const left = width * .016, margin = width * .04, size = unit * (content.fontSize || 48) / 1200;
+  textBlock(ctx, copy.brand, left, unit * .014, size, width * .65, unit * .092, palette.ink, family, leading);
+  textBlock(ctx, copy.description, left, unit * .119, content.works ? size * .64 : size, width * .65, unit * .092, palette.ink, family, leading);
+  if (state.showSticker) {
+    if (sticker) {
+      const box = stickerBounds(width, height, sticker.naturalWidth, sticker.naturalHeight);
+      ctx.drawImage(sticker, box.x, box.y, box.width, box.height);
+    } else {
+      const logoWidth = unit * .15;
+      drawBrandMark(ctx, width - width * .027 - logoWidth, unit * .018, logoWidth, palette.ink);
+    }
+  }
+  if (isGrid) {
+    const { clip } = gridGeometry(width, scene.height, state, aspect);
+    clip.y += scene.offsetY;
+    ctx.save(); ctx.beginPath(); ctx.rect(clip.x, clip.y, clip.width, clip.height); ctx.clip();
+  }
+  for (const item of items) {
+    const poster = posters[item.index];
+    const fit = Math.min(item.width / poster.width, item.height / poster.height);
+    const cardWidth = poster.width * fit, cardHeight = poster.height * fit;
+    let x = item.x - cardWidth / 2, y = item.y - cardHeight / 2;
+    if (isGrid) { ctx.save(); ctx.translate(item.x, item.y); ctx.rotate(item.rotation); x = -cardWidth / 2; y = -cardHeight / 2; }
+    ctx.drawImage(poster, x, y, cardWidth, cardHeight);
+    ctx.strokeStyle = '#00000015'; ctx.lineWidth = Math.max(.6, width / 1800);
+    ctx.strokeRect(x, y, cardWidth, cardHeight);
+    if (isGrid) ctx.restore();
+  }
+  if (isGrid) ctx.restore();
+  if (content.works) {
+    const top = height * .705;
+    textBlock(ctx, copy.headline, width * .043, top, unit * (content.bodyFontSize || 22) / 1200,
+      width * .914, height - unit * .07 - top, palette.ink, family, content.bodyLineHeight || 1.5);
+  } else {
+    textBlock(ctx, copy.headline, width * .043, height - unit * .19, size, width * .81, unit * .125, palette.ink, family, leading);
+  }
+  rule(ctx, palette.line, margin, height - unit * .051, width - margin * 2);
+  textBlock(ctx, copy.signature, margin, height - unit * .036, size * .3125, width * .62, unit * .032, palette.muted, family, leading);
+  textBlock(ctx, copy.footerRight, width - margin, height - unit * .0352, size * .2875, width * .25, unit * .032, palette.muted, family, leading, 'right');
+  ctx.restore(); return items;
+}
+
+return { THEMES, type, makePoster, render };
+})();
+await (async function playStandalone({ render, FORMATS, motionRate, mod, geometry, gridImageAspect, contentScene, currentContent }) {
+  const canvas = document.getElementById('stage');
+  const status = document.getElementById('status');
+  const read = id => {
+    const node = document.getElementById(id);
+    if (!node) return null;
+    const value = JSON.parse(node.textContent); node.remove(); return value;
+  };
+  try {
+    const data = read('presentation-data');
+    const font = read('presentation-font');
+    if (font) {
+      const face = new FontFace('FlowUploadedFont', `url("${font}")`);
+      await face.load(); document.fonts.add(face);
+    }
+    await document.fonts.ready;
+    const decode = async src => { const image = new Image(); image.src = src; await image.decode(); return image; };
+    const preload = data.records.map((_, index) => { const asset = read(`poster-${index}`); const image = new Image(); image.src = asset.src; return { asset, image }; });
+    const posters = [], sources = [];
+    // All originals download in parallel; decode runs in small batches so the
+    // decoded bitmaps stay bounded even on high-resolution exports.
+    for (let at = 0; at < preload.length; at += 12) {
+      await Promise.all(preload.slice(at, at + 12).map(async ({ asset, image }, offset) => {
+        await image.decode();
+        const poster = document.createElement('canvas');
+        poster.width = asset.width; poster.height = asset.height;
+        poster.getContext('2d').drawImage(image, 0, 0, poster.width, poster.height);
+        posters[at + offset] = poster; sources[at + offset] = asset.src; image.src = '';
+      }));
+    }
+    const stickerSource = read('presentation-sticker');
+    const sticker = stickerSource ? await decode(stickerSource) : null;
+    const state = data.settings, copy = { ...data.typography, records: data.records };
+    const [w, h] = FORMATS[state.format];
+    const ctx = canvas.getContext('2d', { alpha: false });
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+    let phase = 0, playing = data.playing && !reduced.matches; // 每次打开固定从 poster-0 开始居中
+    let raf = 0, lastTime = 0, pointer = null, active = -1, press = null, lastItems = [];
+    function draw() {
+      ctx.setTransform(canvas.width / w, 0, 0, canvas.height / h, 0, 0);
+      const items = render(ctx, w, h, phase, posters, state, sticker, copy);
+      lastItems = items;
+      const index = items.at(-1)?.index ?? 0;
+      if (index !== active) {
+        active = index;
+        const text = currentContent(data.records, index, copy.unified, copy.shared);
+        document.getElementById('current-copy').textContent = Object.values(text).join('\n');
+      }
+    }
+    function resize() {
+      const ratio = Math.min(innerWidth / w, innerHeight / h), dpr = Math.min(devicePixelRatio || 1, 2);
+      canvas.style.width = `${Math.floor(w * ratio)}px`; canvas.style.height = `${Math.floor(h * ratio)}px`;
+      canvas.width = Math.max(1, Math.round(w * ratio * dpr)); canvas.height = Math.max(1, Math.round(h * ratio * dpr));
+      draw();
+    }
+    function frame(time) {
+      raf = 0;
+      if (playing && !pointer && lastTime) phase = mod(phase + Math.min((time - lastTime) / 1000, .06) * motionRate(state), posters.length);
+      lastTime = time; draw();
+      if (playing && !document.hidden) raf = requestAnimationFrame(frame);
+    }
+    function wake() { if (!raf && playing && !document.hidden) { lastTime = 0; raf = requestAnimationFrame(frame); } }
+    function pause() { playing = false; cancelAnimationFrame(raf); raf = 0; lastTime = 0; }
+    document.addEventListener('keydown', event => {
+      if (lbOpen) { if (event.key === 'Escape') closeLightbox(); return; }
+      if (event.key === ' ') { event.preventDefault(); if (playing) pause(); else { playing = true; wake(); } }
+      if (['ArrowLeft', 'ArrowRight'].includes(event.key)) {
+        event.preventDefault(); pause(); phase = mod(Math.round(phase) + (event.key === 'ArrowLeft' ? -1 : 1), posters.length); draw();
+      }
+    });
+    canvas.addEventListener('pointerdown', event => {
+      if (event.button !== 0) return;
+      const scene = contentScene(w, h, copy.works);
+      const { gap, rotation = 0 } = geometry(w, scene.height, state, gridImageAspect(posters));
+      pointer = { id: event.pointerId, x: event.clientX, y: event.clientY, phase, rotation, gap: gap * canvas.getBoundingClientRect().width / w };
+      press = { x: event.clientX, y: event.clientY, moved: 0, time: performance.now() };
+      canvas.setPointerCapture(event.pointerId);
+    });
+    canvas.addEventListener('pointermove', event => {
+      if (!pointer || event.pointerId !== pointer.id) return;
+      const dx = event.clientX - pointer.x, dy = event.clientY - pointer.y;
+      if (press) press.moved = Math.max(press.moved, Math.hypot(dx, dy));
+      const travel = state.mode === 'grid' ? -dx * Math.sin(pointer.rotation) + dy * Math.cos(pointer.rotation) : -dx;
+      phase = mod(pointer.phase + travel / pointer.gap, posters.length); draw();
+    });
+    const endDrag = () => { pointer = null; wake(); };
+    for (const name of ['pointerup', 'pointercancel', 'lostpointercapture']) canvas.addEventListener(name, endDrag);
+    addEventListener('resize', resize);
+    document.addEventListener('visibilitychange', () => { if (document.hidden) { cancelAnimationFrame(raf); raf = 0; lastTime = 0; } else wake(); });
+    reduced.addEventListener('change', pause);
+    // ---- 点击放大预览 ----
+    const lightbox = document.getElementById('lightbox');
+    const lbFrame = lightbox.querySelector('.lb-frame');
+    const lbImg = lightbox.querySelector('.lb-img');
+    const lbHandle = lightbox.querySelector('.lb-handle');
+    const lbText = lightbox.querySelector('.lb-text');
+    const lbClose = lightbox.querySelector('.lb-close');
+    let lbOpen = false, lbAspect = 1, lbWasPlaying = false, lbLastFocus = null, lbDrag = null;
+    const setLbRect = (x, y, width, height) => {
+      lbFrame.style.left = x + 'px'; lbFrame.style.top = y + 'px';
+      lbFrame.style.width = width + 'px'; lbFrame.style.height = height + 'px';
+    };
+    const clampLbWidth = width => Math.max(120, Math.min(width, Math.max(innerWidth, innerHeight) * 3));
+    const hitTest = (clientX, clientY) => {
+      const rect = canvas.getBoundingClientRect();
+      if (!rect.width || !rect.height) return -1;
+      const sx = (clientX - rect.left) / rect.width * w, sy = (clientY - rect.top) / rect.height * h;
+      for (let i = lastItems.length - 1; i >= 0; i--) {
+        const item = lastItems[i], poster = posters[item.index];
+        if (!poster) continue;
+        const fit = Math.min(item.width / poster.width, item.height / poster.height);
+        const cw = poster.width * fit, ch = poster.height * fit;
+        let dx = sx - item.x, dy = sy - item.y;
+        if (item.rotation) {
+          const cos = Math.cos(item.rotation), sin = Math.sin(item.rotation);
+          const rx = dx * cos + dy * sin, ry = dy * cos - dx * sin;
+          dx = rx; dy = ry;
+        }
+        if (Math.abs(dx) <= cw / 2 && Math.abs(dy) <= ch / 2) return item.index;
+      }
+      return -1;
+    };
+    const openLightbox = index => {
+      const poster = posters[index];
+      if (!poster || lbOpen) return;
+      lbOpen = true;
+      lbAspect = poster.width / poster.height;
+      lbImg.src = sources[index] || '';
+      lbImg.alt = (data.records[index] && data.records[index].title) || `作品 ${index + 1}`;
+      lbText.textContent = `${lbImg.alt}  ·  ${index + 1} / ${posters.length}\n拖动图片移动 · 拖动右下角等比缩放 · 滚轮缩放 · Esc 关闭`;
+      const width = Math.min(innerWidth * .88, innerHeight * .82 * lbAspect);
+      const height = width / lbAspect;
+      setLbRect((innerWidth - width) / 2, (innerHeight - height) / 2, width, height);
+      lbWasPlaying = playing;
+      if (playing) pause();
+      lbLastFocus = document.activeElement;
+      lightbox.hidden = false;
+      lbClose.focus();
+    };
+    const closeLightbox = () => {
+      if (!lbOpen) return;
+      lbOpen = false;
+      lightbox.hidden = true;
+      lbImg.src = '';
+      if (lbLastFocus && lbLastFocus.focus) lbLastFocus.focus();
+      if (lbWasPlaying) { playing = true; wake(); }
+    };
+    lbClose.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('pointerdown', event => {
+      if (event.target === lightbox) closeLightbox();
+    });
+    lbImg.addEventListener('pointerdown', event => {
+      if (!lbOpen || event.button !== 0) return;
+      event.preventDefault();
+      const rect = lbFrame.getBoundingClientRect();
+      lbDrag = { mode: 'move', px: event.clientX, py: event.clientY, x: rect.left, y: rect.top, w: rect.width };
+      lbImg.setPointerCapture(event.pointerId);
+      lbImg.classList.add('dragging');
+    });
+    lbHandle.addEventListener('pointerdown', event => {
+      if (!lbOpen || event.button !== 0) return;
+      event.preventDefault();
+      const rect = lbFrame.getBoundingClientRect();
+      lbDrag = { mode: 'resize', px: event.clientX, py: event.clientY, x: rect.left, y: rect.top, w: rect.width };
+      lbHandle.setPointerCapture(event.pointerId);
+    });
+    const lbMove = event => {
+      if (!lbDrag) return;
+      if (lbDrag.mode === 'resize') {
+        const width = clampLbWidth(lbDrag.w + event.clientX - lbDrag.px);
+        setLbRect(lbDrag.x, lbDrag.y, width, width / lbAspect);
+      } else {
+        setLbRect(lbDrag.x + event.clientX - lbDrag.px, lbDrag.y + event.clientY - lbDrag.py, lbDrag.w, lbDrag.w / lbAspect);
+      }
+    };
+    const lbUp = () => { lbDrag = null; lbImg.classList.remove('dragging'); };
+    for (const node of [lbImg, lbHandle]) {
+      node.addEventListener('pointermove', lbMove);
+      node.addEventListener('pointerup', lbUp);
+      node.addEventListener('pointercancel', lbUp);
+    }
+    lbFrame.addEventListener('wheel', event => {
+      if (!lbOpen) return;
+      event.preventDefault();
+      const rect = lbFrame.getBoundingClientRect();
+      const width = clampLbWidth(rect.width * Math.exp(-event.deltaY * .0018));
+      const height = width / lbAspect;
+      const ax = (event.clientX - rect.left) / rect.width;
+      const ay = (event.clientY - rect.top) / rect.height;
+      setLbRect(event.clientX - ax * width, event.clientY - ay * height, width, height);
+    }, { passive: false });
+    canvas.addEventListener('pointerup', event => {
+      if (!press || event.button !== 0) return;
+      const clicked = press.moved < 6 && performance.now() - press.time < 600;
+      press = null;
+      if (!clicked) return;
+      const hit = hitTest(event.clientX, event.clientY);
+      if (hit >= 0) openLightbox(hit);
+    });
+    resize(); status.hidden = true; canvas.style.visibility = 'visible'; wake();
+  } catch (error) {
+    status.textContent = '演示文件无法加载，请重新导出。'; status.setAttribute('role', 'alert');
+    console.error(error);
+  }
+})({ ...__module2, ...__module1, ...__module3, ...__module4, render: __module7.render });
+})();
+</script></body></html>
